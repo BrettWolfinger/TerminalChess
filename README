@@ -1,0 +1,41 @@
+Implements a terminal and text based version of chess for two players to play locally.
+Comes with alternate gamemodes of King of the Hill and SpookyChess
+There is no implementation of an AI opponent
+There is the option to enable a graphical display of the chessboard and graveyard
+
+Many years later Post-Mortem:
+While the underlying gameplay is sound and the game implements all the rules of classical chess,
+the code itself was definitely written by an undergraduate (it was!).
+With several more years of programming and game development under my belt, there are many things I would change
+that could improve the readability and cut down the overall amount of code by a few hundred lines.
+
+1. Modularize the code - Many functions can/should be broken out into individual components to both (a) reduce the overall 
+size of the files and (b) reduce code repetition. 
+	a) Game.cpp contains so much of the overall gameplay and could easily be broken into several different shorter components. For example, there could have been
+	a separate scripts for: Handling the display, processing input, checking if moves are legal, and actually making moves
+	b) The saving code is essentially duplicated in all three games types
+	with minor modifications for game-mode specific information. This could have been separated out into a SaveLoad class that the game
+	modes call upon with the game type as a parameter and then one function handles the saving and loading with some associated logic based off the type parameter
+I have a vague recollection that we were supposed to use this specific file structure for grading purposes so maybe that had something to do with it? Either way
+it could be much better.
+2. Using Dictionaries - A substantial number of the switch statements, especially in the display logic, could be elimintated with a dictionary 
+that maps the piece enum to the unicode value needed to print it
+3. Using recursion - One particularly long section of the game.cpp (70 lines) is the castling check. This could be shortened tremendously by just recursively checking each location between the rook and king. Even a for loop might have worked. I think this was one of the last things we implemented so maybe we just went with a explicit definition to save time debuggging?
+
+I'm not sure why we didn't use a 2D array to represent and query the board instead of the 1d vector of pieces more frequently. Maybe that was something
+we weren't allowed to do per the assignment instructions, but I don't remember.
+
+That said, I'm still kind of impressed that we implemented this as a class project with a timeframe of ~1.5 weeks.
+It was neat to go back and look at some more humble beginnings and reflect on how far I've come.
+
+
+RUN/COMPILATION
+In order to generate the executables, enter the command:
+	make
+and to run the executable enter the command:
+	./play
+
+Commands:
+	q - quit
+	board - enable chess board display (off by default)
+	fr fr - (f)ile(r)ank notation of the starting square to move and what square to move it to
